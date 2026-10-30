@@ -11,7 +11,7 @@ num,name,kor,eng,mat
 6,유진,100,100,100
 */
 
-//입력 : 번호, 이름, 국어, 영어, 수학
+//입력:번호,이름,국어,영어,수학
 //num, name, kor, eng, mat
 //출력:번호 이름 국어 영어 수학 총점 평균 등급
 //	   num  name kor  eng   mat  tot  avg grade
@@ -43,14 +43,113 @@ class Score {
 		
 		this.tot = 0;
 		this.avg = 0.0;
-		this.grade = 'f';
+		this.grade = 'F';
+	}
+	
+	// Getter / Setter
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getKor() {
+		return kor;
+	}
+	public void setKor(int kor) {
+		this.kor = kor;
+	}
+	public int getEng() {
+		return eng;
+	}
+	public void setEng(int eng) {
+		this.eng = eng;
+	}
+	public int getMat() {
+		return mat;
+	}
+	public void setMat(int mat) {
+		this.mat = mat;
+	}
+	public int getTot() {
+		return tot;
+	}
+	public void setTot(int tot) {
+		this.tot = tot;
+	}
+	public double getAvg() {
+		return avg;
+	}
+	public void setAvg(double avg) {
+		this.avg = avg;
+	}
+	public char getGrade() {
+		return grade;
+	}
+	public void setGrade(char grade) {
+		this.grade = grade;
+	}
+	
+	// toString : 값 중간확인용
+	@Override
+	public String toString() {
+		return "Score [num=" + num + ", name=" + name + ", kor=" + kor + ", eng=" + eng + ", mat=" + mat + ", tot="
+				+ tot + ", avg=" + avg + ", grade=" + grade + "]";
 	}
 	
 	
-	//메소드 기능(함수) : 입력, 처리, 출력
-	public void input() {}
-	public void process() {}
-	public void output() {}
+	// 메소드
+	public int calcTot() {
+		tot = kor + eng + mat;
+		return tot;
+	}
+	//평균
+	public double calcAvg() {
+		// avg = tot/3.0;  // 전역변수인 tot 의 값이 0.0점이기에 결과가 0.0
+		avg = calcTot()/3.0; // 이건 가능
+		// avg = (kor + eng + mat)/3.0; // 이것도 가능
+		return avg;
+	}
+	
+	// grade
+	public char calcGrade() {
+		// 평균이 90 ~ 100		: 'A'
+		// 평균이 80 ~ 90 미만	: 'B'
+		// 평균이 70 ~ 80 미만	: 'C'
+		// 평균이 60 ~ 70 미만	: 'D'
+		// 평균이  0 ~ 60 미만	: 'F'
+		
+		if(90 <= calcAvg() && calcAvg() <= 100) {
+			grade = 'A';
+			}
+		else {
+			if(calcAvg() >=80) {
+				grade = 'B';
+			}
+			else {
+				if(calcAvg() >= 70) {
+					grade = 'C';
+				}
+				else{
+					if(calcAvg() >=60) {
+						grade = 'D';
+					}
+					else {
+						grade = 'F';
+					}
+				}
+			}
+		}
+		return grade;
+	}
+	
+	
 	
 }
 
@@ -58,7 +157,35 @@ public class TestScore {
 
 	public static void main(String[] args) {
 		
-
+		Score score1 = new Score(1,"사나",70,80,90);
+		System.out.println(score1.toString());
+		
+		System.out.println("총점:" + score1.calcTot()   );
+		System.out.println("평균:" + score1.calcAvg()   );
+		System.out.println("학점:" + score1.calcGrade()   );
+		
+		// 5,원영,90,90,89
+		Score score2 = new Score();
+		score2.setNum(5); //score2.num = 5 가 private에 막히니 set으로 하는 것
+		score2.setName("원영");
+		score2.setKor(90);
+		score2.setEng(90);
+		score2.setMat(89);
+		score2.calcTot();
+		score2.calcAvg();
+		score2.calcGrade();
+		
+		System.out.println(score2);
+		
+		//출력:번호 이름 국어 영어 수학 총점 평균 등급
+		//	   num  name kor  eng   mat  tot  avg grade
+		System.out.println("번호 이름 국어 영어 수학 총점 평균 등급");
+		System.out.printf("%d  %s  %d  %d  %d  %d  %.3f  %c", 
+				score2.getNum(), score2.getName(), score2.getKor(),
+				score2.getEng(), score2.getMat(), score2.getTot(),
+				score2.getAvg(), score2.getGrade());
+		
 	}
 
 }
+
